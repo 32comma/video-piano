@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.40/Tone.js">
+
+    </script>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+        }
+
+        span {
+            display: inline-block;
+            margin: 0.2rem;
+            line-height: 40px;
+            text-align: center;
+            background-color: black;
+            color: white;
+            width: 40px;
+            height: 40px;
+            box-shadow: -3px -3px 5px rgba(0, 0, 0, 0.55);
+            background-color: none;
+            border-radius: 0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        span:active {
+            box-shadow: 0 0 0 0;
+        }
+    </style>
+</head>
+
+<body>
+    <video id="video" controls preload="metadata">
+        <source src="video.mp4" type="video/mp4">
+    </video>
+
+    <script>
+        let video = document.getElementById('video');
+        let track = video.addTextTrack("captions", "Captions", "en");
+        track.mode = "showing";
+
+        var sheet = 'tuoashtuoashtuoashtuoashruoashruoashruoashruoasheuoasheuoasheuoasheuoashlkjfsa';
+
+        for (var i = 0; i < sheet.length; i++) {
+            track.addCue(new VTTCue(i, i + 1, sheet.charAt(i)));
+        }
+    </script>
+
+    <div>
+        <span id="key-1" value="0" onclick="run(this)" note="c2">1</span>
+        <span id="key-2" value="0" onclick="run(this)" note="d2">2</span>
+        <span id="key-3" value="0" onclick="run(this)" note="e2">3</span>
+        <span id="key-4" value="0" onclick="run(this)" note="f2">4</span>
+        <span id="key-5" value="0" onclick="run(this)" note="g2">5</span>
+        <span id="key-6" value="0" onclick="run(this)" note="a2">6</span>
+        <span id="key-7" value="0" onclick="run(this)" note="b2">7</span>
+        <span id="key-8" value="0" onclick="run(this)" note="c3">8</span>
+        <span id="key-9" value="0" onclick="run(this)" note="d3">9</span>
+        <span id="key-0" value="0" onclick="run(this)" note="e3">0</span>
+    </div>
+    <div>
+        <span id="key-q" value="0" onclick="run(this)" note="f3">q</span>
+        <span id="key-w" value="0" onclick="run(this)" note="g3">w</span>
+        <span id="key-e" value="0" onclick="run(this)" note="a3">e</span>
+        <span id="key-r" value="0" onclick="run(this)" note="b3">r</span>
+        <span id="key-t" value="0" onclick="run(this)" note="c4">t</span>
+        <span id="key-y" value="0" onclick="run(this)" note="d4">y</span>
+        <span id="key-u" value="0" onclick="run(this)" note="e4">u</span>
+        <span id="key-i" value="0" onclick="run(this)" note="f4">i</span>
+        <span id="key-o" value="0" onclick="run(this)" note="g4">o</span>
+        <span id="key-p" value="0" onclick="run(this)" note="a4">p</span>
+    </div>
+    <div>
+        <span id="key-a" value="0" onclick="run(this)" note="b4">a</span>
+        <span id="key-s" value="0" onclick="run(this)" note="c5">s</span>
+        <span id="key-d" value="0" onclick="run(this)" note="d5">d</span>
+        <span id="key-f" value="0" onclick="run(this)" note="e5">f</span>
+        <span id="key-g" value="0" onclick="run(this)" note="f5">g</span>
+        <span id="key-h" value="0" onclick="run(this)" note="g5">h</span>
+        <span id="key-j" value="0" onclick="run(this)" note="a5">j</span>
+        <span id="key-k" value="0" onclick="run(this)" note="b5">k</span>
+        <span id="key-l" value="0" onclick="run(this)" note="c6">l</span>
+    </div>
+    <div>
+        <span id="key-z" value="0" onclick="run(this)" note="d6">z</span>
+        <span id="key-x" value="0" onclick="run(this)" note="e6">x</span>
+        <span id="key-c" value="0" onclick="run(this)" note="f6">c</span>
+        <span id="key-v" value="0" onclick="run(this)" note="g6">v</span>
+        <span id="key-b" value="0" onclick="run(this)" note="a6">b</span>
+        <span id="key-n" value="0" onclick="run(this)" note="b6">n</span>
+        <span id="key-m" value="0" onclick="run(this)" note="c7">m</span>
+    </div>
+    <script>
+        function run(key) {
+            console.log(key.getAttribute('note'));
+            synth.triggerAttackRelease(`${key.getAttribute('note')}`, '16n');
+        }
+        const recorder = new Tone.Recorder();
+        const synth = new Tone.PolySynth(Tone.Synth).toDestination().connect(recorder);
+        const now = Tone.now();
+        document.body.addEventListener('keydown', function (e) {
+            console.log('down');
+            var key = document.getElementById(`key-${e.key}`);
+            if (parseInt(key.getAttribute('value')) == 0) {
+                synth.triggerAttack(`${key.getAttribute('note')}`, now);
+                var cnt = parseInt(key.getAttribute('value')) + 1;
+                key.setAttribute('value', cnt);
+                key.style = 'box-shadow: 0 0 0 0;';
+            }
+        });
+        document.body.addEventListener('keydown', function (e) {
+            console.log('down');
+            var key = document.getElementById(`key-${e.key}`);
+            if (parseInt(key.getAttribute('value')) == 0) {
+                synth.triggerAttack(`${key.getAttribute('note')}`, now);
+                var cnt = parseInt(key.getAttribute('value')) + 1;
+                key.setAttribute('value', cnt);
+                key.style = 'box-shadow: 0 0 0 0;';
+            }
+        });
+        document.body.addEventListener('keyup', function (e) {
+            console.log('up');
+            var key = document.getElementById(`key-${e.key}`);
+            key.setAttribute('value', 0);
+            key.style = `box-shadow: -3px -3px 5px rgba(0, 0, 0, 0.55)`;
+            console.log(key.getAttribute('value'));
+            synth.triggerRelease(`${key.getAttribute('note')}`, now + 0.1);
+        });
+    </script>
+</body>
+
+
+</html>
